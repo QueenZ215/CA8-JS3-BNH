@@ -11,27 +11,32 @@
     <p id="gameOutput">Game results will appear here.</p>
 
     <script>
-        
+        var again=true;
 
         //Welcome ask for name
-        let pname = prompt("Welcome to Bear Hunter Ninja! Please enter yout name to get started:");
-        //display name and move on to game
-        let greeting = `Hi ${pname} Let's Play!!`;
-        alert(greeting);
-        //ask player to chose Bear Ninja or Hunter
-        let cchoice = "Bear";
-        let pchoice = prompt("Who are you Bear, Ninja, or Hunter?");
-        //capitlise the first letter to match with the rest of the code
-        switch (pchoice) {
-            case "bear": 
-                pchoice = "Bear";
-                break;
-            case "ninja": 
-                pchoice = "Ninja";
-                break;
-            case "hunter":
-                pchoice = "Hunter";
+        var gameoptions = ["bear","ninja","hunter"];
+        let pname = prompt("Welcome to Bear Hunter Ninja! Please enter your name to get started:");
+        if (pname === null){
+            document.getElementById("gameOutput").innerHTML = "Please Press F5 to Play Again.";
+            again = false;
+        }else if(pname.trim()==="") {
+            document.getElementById("gameOutput").innerHTML = "Invalid Entry<br>Please Press F5 to Play Again.";
+            again = false;            
         }
+        //display name and move on to game
+        while (again){
+        alert(`Hi ${pname} Let's Play!!`);
+        //ask player to chose Bear Ninja or Hunter
+        let cchoice = gameoptions[Math.floor(Math.random()*3)];
+        let pchoice = prompt("Who are you Bear, Ninja, or Hunter?");
+        // if player clicks cancle it will return null if they click ok with no text trimmed it will be "" this displays error messages.
+        if (pname === null){
+            document.getElementById("gameOutput").innerHTML = "Please Press F5 to Play Again.";
+            break;
+         }
+        //  clean up player entry change all to lowercase to match game logic rules trim off any extra white space.  
+        pchoice = pchoice.toLowerCase().trim();
+
         //game logic Bear beats Ninja, Ninja beats Hunter, and Hunter beats Bear. 
         let winner;
         // if player and computer are the same its a tie. 
@@ -39,25 +44,49 @@
             winner = "It's a tie!"
         } else if (
             //all the player win combnations  AND for the choices and OR for each possiability
-            (pchoice === "Bear" && cchoice === "Ninja") || 
-            (pchoice === "Ninja" && cchoice === "Hunter") || 
-            (pchoice === "Hunter" && cchoice === "Bear")){
+            (pchoice === "bear" && cchoice === "ninja") || 
+            (pchoice === "ninja" && cchoice === "hunter") || 
+            (pchoice === "hunter" && cchoice === "bear")){
                 winner = "You Win!!"
-            } else if (
-                // all computer win combnations same as above just with the computer winning
-            (pchoice === "Bear" && cchoice === "Hunter") || 
-            (pchoice === "Ninja" && cchoice === "Bear") || 
-            (pchoice === "Hunter" && cchoice === "Ninja")){
+        } else if (
+            // all computer win combnations same as above just with the computer winning
+            (pchoice === "bear" && cchoice === "hunter") || 
+            (pchoice === "ninja" && cchoice === "bear") || 
+            (pchoice === "hunter" && cchoice === "ninja")){
                 winner = "You Lose!!"
+        // this error will cover any thing other then 3 choices as well as empty
+        }else {
+                document.getElementById("gameOutput").innerHTML = "Invalid Entry<br>Please Press F5 to Play Again.";
+                break;
             }
+        // setting variables to be displayed to html console 
+        let result = `${pname}, you picked ${pchoice}!<br>The Computer picked ${cchoice}!<br>${winner}`;
+        let resultcon = `${pname}, you picked ${pchoice}!\nThe Computer picked ${cchoice}!\n${winner}`;
+        // alert as a workaround to prompt not displaying html before loop prompt
+        alert(`${pname}, you picked ${pchoice}!\nThe Computer picked ${cchoice}!\n${winner}`);
         
-
-        let result = `${pname}, you picked ${pchoice}!<br>The computer picked ${cchoice}!<br>${winner}`;
-        let resultcon = `${pname}, you picked ${pchoice}!\nThe computer picked ${cchoice}!\n${winner}`;
         //message to the HTML page
         document.getElementById("gameOutput").innerHTML = result;
         //message to console
         console.log(resultcon);
+        let choice = prompt(`${pname}, would you like to play again, Yes or No?`);
+        if (choice === null) {
+            document.getElementById("gameOutput").innerHTML = "Please Press F5 to Play Again.";
+            again = false;
+        }else {
+            choice = choice.toLowerCase().trim()
+            if (choice === "yes" ) {
+                again = true;
+            }
+            else if (choice === "no"){
+                again = false ;
+            }else {
+            again = false;
+            document.getElementById("gameOutput").innerHTML = "Invalid Entry<br>Please Press F5 to Play Again.";
+            }
+        }
+            
+        }
     </script>
 </body>
 </html>
