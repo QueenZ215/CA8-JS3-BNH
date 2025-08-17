@@ -11,10 +11,10 @@
     <p id="gameOutput">Game results will appear here.</p>
 
     <script>
-        var again=true;
+        let again=true;
 
         //Welcome ask for name
-        var gameoptions = ["bear","ninja","hunter"];
+        let gameoptions = ["bear","ninja","hunter"];
         let pname = prompt("Welcome to Bear Hunter Ninja! Please enter your name to get started:");
         if (pname === null){
             document.getElementById("gameOutput").innerHTML = "Please Press F5 to Play Again.";
